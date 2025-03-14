@@ -1,0 +1,25 @@
+Answers for Scenario 1, Meander Scenario, and Scenario 2 assuming the following stable condition:
+Stable at slope = 0.3%, flow = 11.1, size = 28.66, supply = 9.02 (Default for watershed = 15 sq.mi., S=0.3%).
+
+Scenario 1:
+(Assume stable at slope = 0.3%, flow = 11.1, size = 28.66, supply = 9.02)
+1.  Answer:  Decrease flow from 11.1 to 8:  Shift towards aggradation: +48%
+2.  (Assume slope = 0.3%, flow = 8, size = 28.66, supply = 9.02):  Aggradation:  +48%
+    Answer:  Increase slope to 0.416%:  Aggradation:  +0%.
+3.  (Assume slope = 0.3%, flow = 8, size = 28.66, supply = 9.02).  
+    Answer:  Reduce supply from 9 to 7:  Shift from 48% aggradation to 26% aggradation.
+4.  (Assume slope = 0.3%, flow = 8, size = 28.66, supply = 9).  
+    Answer:  Reduction from 9 to 4.7 ft3/hr per foot width = 48% reduction.  (9-4.7/9 = 4.3/9 = 48% reduction).
+
+Meander Scenario:
+(Assume stable at slope = 0.3%, flow = 11.1, size = 28.66, supply = 9.02)
+1.  Answer:  Decrease slope to 0.2%:  Shift towards aggradation: +56%
+2.  Answer:  Reduction = 9.02*0.56 = 5.05 ~ 5; New transport capacity = 9.02 - 5.05 = 3.95 ~ 4.
+3.  (Assume slope = 0.25%, flow = 16, size = 28.66, supply = 15):  Aggradation: +22%
+    Answer:  Reduce supply by 5, from 15 to 10:  Shift towards degradation: -33% to -34%.
+    
+Scenario 2:
+(Assume stable at slope = 0.3%, flow = 11.1, size = 28.66, supply = 9.02)
+1.  Answer:  Decrease supply to 1:  Shift towards degradation: -89%
+2.  (Assume slope = 0.3%, flow = 11.1, size = 28.66, supply = 1):  Degradation:  -89%
+    Answer:  Reduce slope from 0.3% to 0.1%:  Degradation: +0%
