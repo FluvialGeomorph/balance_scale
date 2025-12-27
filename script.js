@@ -166,78 +166,50 @@ function calcWatershedEstimates() {
 }
 
 function calcBalance(stableOption) {
-  //perform calculations and set database values here
-  //writing the current values to a form text input box
-  //const dateText4c = document.querySelector('.dateText4');
-  //let strValue4c = 'Values for D50,S,Qs,Qw:  ';
-  //strValue4c = strValue4c + String(localStorage.getItem('valueSize')) + ';  ';
-  //strValue4c = strValue4c + String(localStorage.getItem('valueSlope')) + ';  ';
-  //strValue4c = strValue4c + String(localStorage.getItem('valueSupply')) + ';  ';
-  //strValue4c = strValue4c + String(localStorage.getItem('valueFlow')) + ';  ';
-  //strValue4c = strValue4c + String(localStorage.getItem('valueScenario'));
-  //dateText4c.value = strValue4c;
-  
-  //setting an initial value for the sediment continuity % balance
-  //localStorage.setItem('calcBalancePercent','65.0');
-  
-  //Calculations for the sediment continuity percent balance
-  
-  //calculating scaled values
-  localStorage.setItem('valueScaledSlope',String(localStorage.getItem('valueSlope')));
-  localStorage.setItem('valueScaledSize',String(localStorage.getItem('valueSize')));
-  localStorage.setItem('valueScaledSupply',String(localStorage.getItem('valueSupply')));
-  
-  //calculating converted values
-  const convertedSlope = Number(localStorage.getItem('valueScaledSlope')) / 100.0;
-  localStorage.setItem('valueConvertedSlope',String(convertedSlope));
-  localStorage.setItem('valueConvertedFlow',String(localStorage.getItem('valueFlow')));
-  const convertedSize = Number(localStorage.getItem('valueScaledSize')) / 304.8;
-  localStorage.setItem('valueConvertedSize',String(convertedSize));
-  const convertedSupply = Number(localStorage.getItem('valueScaledSupply')) / 60.0 / 60.0;
-  localStorage.setItem('valueConvertedSupply',String(convertedSupply));
-  
-  //calculating proportioned values
-  const proportionedSlope = (Number(localStorage.getItem('valueConvertedSlope'))) ** 2;
-  localStorage.setItem('valueProportionedSlope',String(proportionedSlope));
-  const proportionedFlow = (Number(localStorage.getItem('valueConvertedFlow'))) ** 2;
-  localStorage.setItem('valueProportionedFlow',String(proportionedFlow));
-  const proportionedSize = (Number(localStorage.getItem('valueConvertedSize'))) ** (1.5);
-  localStorage.setItem('valueProportionedSize',String(proportionedSize));
-  localStorage.setItem('valueProportionedSupply',String(localStorage.getItem('valueConvertedSupply')));
-  
-  //calculate transport and supply products
-  const transportProduct_part1 = (Number(localStorage.getItem('valueProportionedSlope')) * Number(localStorage.getItem('valueProportionedFlow')));
-  const transportProduct = transportProduct_part1 / Number(localStorage.getItem('valueProportionedSize'));
-  localStorage.setItem('valueProductTransport',String(transportProduct));
-  localStorage.setItem('valueProductSupply',String(localStorage.getItem('valueConvertedSupply')));
-  
-  //calculate transport and supply constants
-  const transportConstantCalc = Number(localStorage.getItem('valueProductSupply')) / Number(localStorage.getItem('valueProductTransport'));
-  localStorage.setItem('valueConstantTransportCalc',String(transportConstantCalc));
-  const supplyConstantCalc = 1.0 / Number(localStorage.getItem('valueProductSupply'));
-  localStorage.setItem('valueConstantSupplyCalc',String(supplyConstantCalc));
-  
-  //add benchmark constant values if not present in local storage
-  if(stableOption === "stable") {
-    localStorage.setItem('valueConstantTransport', String(transportConstantCalc));
-    localStorage.setItem('valueConstantSupply', String(supplyConstantCalc));
-  }
-  
-  //calculate precursor values for calculation of the percent sediment continuity balance
-  const transportBalanceCalc_part1 = Number(localStorage.getItem('valueProductTransport')) * Number(localStorage.getItem('valueConstantTransport'));
-  const transportBalanceCalc = transportBalanceCalc_part1 * Number(localStorage.getItem('valueConstantSupply'));
-  localStorage.setItem('valueBalanceTransport', String(transportBalanceCalc));
-  const supplyBalanceCalc = Number(localStorage.getItem('valueProductSupply')) * Number(localStorage.getItem('valueConstantSupply'));
-  localStorage.setItem('valueBalanceSupply', String(supplyBalanceCalc));
-  
-  //calculate the percent sediment continuity balance
-  const balanceContinuityPercent = (Number(localStorage.getItem('valueBalanceSupply')) - Number(localStorage.getItem('valueBalanceTransport'))) * 100.0;
+  //Calculate the sediment transport capacity ratio (qs2/qs1) with the Gary Brown (2025) equation (for conditions 1 & 2)
+  //S2/S1 ~ (qs2/qs1)^(20/7m) * (q1/q2)^((20+6m)/7m) * (D2/D1)^(40/21) * (n1/n2)^(78/21)
+  //qs = sediment transport capacity; S = slope; q = flow; m = transport coefficient; d = size; n = manning's n value; t = sediment supply
+  //Solve for qs2/qs1:
+  //qs2/qs1 = ((S2/S1) / ((q1/q2)^((20+6m)/7m) * (D2/D1)^(40/21) * (n1/n2)^(78/21)))^(7m/20)
+  //qs2/qs1 = ( s_part / ( q_part              *  d_part          * n_part        ))^(e_part)
+  //q_exp = (20.0 + 6.0*m)/(7.0*m)
+  //q_part = (q1/q2)**q_exp
+  //d_part = (d2/d1)**(40.0/21.0)
+  //n_part = (n1/n2)**(78.0/21.0)
+  //s_part = s2/s1
+  //qs_exp = 20.0/(7.0*m)
+  //e_part = 1/qs_exp
+  //qs2/qs1 = (s_part / (q_part * d_part * n_part)) ** e_part
+  //qs2_qs1 = qs2/qs1
+  //t2_t1 = t2/t1
+  //Sediment Continuity Balance = Ratio of the Sediment Supply to the Sediment Transport Capacity.  Positive = Aggradation; Negative = Degradation.
+  //Assume the sediment continuity balance is 0% at condition 1 (completely in balance).
+  //Sediment Continuity Balance at Condition 2 = Ratio of the Sediment Supply (t2/t1) - Ratio of transport capacity (qs2/qs1).  
+  //Sediment Continuity Balance % = (t2/t1 - qs2/qs1) * 100
+  const s2 = Number(localStorage.getItem('valueSlope')) / 100.0;
+  const s1 = Number(localStorage.getItem('defaultSlope')) / 100.0;
+  const q2 = Number(localStorage.getItem('valueFlow'));
+  const q1 = Number(localStorage.getItem('defaultFlow'));
+  const m = Number(localStorage.getItem('defaultTransport'));
+  const d2 = Number(localStorage.getItem('valueSize')) / 304.8;
+  const d1 = Number(localStorage.getItem('defaultSize')) / 304.8;
+  const n2 = Number(localStorage.getItem('valueManning'));
+  const n1 = Number(localStorage.getItem('defaultManning'));
+  const t2 = Number(localStorage.getItem('valueSupply')) / 3600.0;
+  const t1 = Number(localStorage.getItem('defaultSupply')) / 3600.0;
+  const q_exp = (20.0 + 6.0*m)/(7.0*m)
+  const q_part = (q1/q2)**q_exp
+  const d_part = (d2/d1)**(40.0/21.0)
+  const n_part = (n1/n2)**(78.0/21.0)
+  const s_part = s2/s1
+  const qs_exp = 20.0/(7.0*m)
+  const e_part = 1/qs_exp
+  const qs2_qs1 = (s_part / (q_part * d_part * n_part)) ** e_part
+  const t2_t1 = t2/t1
+  const balanceContinuityPercent = (t2_t1 - qs2_qs1)*100.0
   const balanceContinuityPercentRounded = Math.round(balanceContinuityPercent)
   localStorage.setItem('calcBalancePercent', String(balanceContinuityPercentRounded));
-  
-  //Calculate the angle to represent the sediment Continuity Percent in the Lane's Balance Scale Page:
-  //Note:  The calculated % ratio is multiplied by 0.4 to get the angle value for the Lane's Balance Scale.
-  let angleCalc = Number(localStorage.getItem('calcBalancePercent')) * 0.4;
+  let angleCalc = balanceContinuityPercent * 0.4;
   localStorage.setItem('calcAngle',angleCalc);
   updateLanesBalanceScaleChart();
 }
