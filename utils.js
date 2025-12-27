@@ -686,13 +686,17 @@ function updateScaleBar() {
   ctx.fillText(belowBaseText, centerScaleX - 7, baseScaleBottomY + 74);
   
   //add text above the scale
-  let aboveScaleText = "Lane's Dynamic Equilibrium Balance Scale";
+  //20251227 - change "Dynamic Equilibrium" to "Sediment Continuity"
+  //let aboveScaleText = "Lane's Dynamic Equilibrium Balance Scale";
+  let aboveScaleText = "Lane's Sediment Continuity Balance Scale";
   ctx.strokeStyle = "rgb(255, 255, 255)";
   ctx.fillStyle = "rgb(255, 255, 255)";
   ctx.fillStyle = "white";
   ctx.font = "14px arial";
   ctx.fillText(aboveScaleText, centerScaleX - 145, 20);
-  aboveScaleText = "Sediment Supply (Qs) * Sediment Size (d50) ~ Flow Rate (Q) * Slope (S)";
+  //20251227 - add Manning's N (n) to the right side of the equation
+  //aboveScaleText = "Sediment Supply (Qs) * Sediment Size (d50) ~ Flow Rate (Q) * Slope (S)";
+  aboveScaleText = "Sediment Supply (Qs) * Sediment Size (d50) ~ Flow Rate (Q) * Slope (S) * Manning's N (n)";
   ctx.strokeStyle = "rgb(255, 255, 255)";
   ctx.fillStyle = "rgb(255, 255, 255)";
   ctx.fillStyle = "white";
