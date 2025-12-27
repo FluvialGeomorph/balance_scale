@@ -8,7 +8,7 @@ the current slider and select values. */
 //(1) the default values in the database are empty (for first usage)
 //(2) the "setup" button is clicked, which sets the default
 //values to the current values for size,slope,supply,flow, and scenario.
-function populateStorage() {
+function populateStorage(initialStatus) {
   localStorage.setItem('defaultSize', size.value);
   localStorage.setItem('defaultSlope', slope.value);
   localStorage.setItem('defaultSupply', supply.value);
@@ -20,7 +20,11 @@ function populateStorage() {
   } else {
     localStorage.setItem('defaultTransport', String(5.7));
   }
-  populateDataStable();
+  if (initialStatus === 'initial') {
+    updateObjects("initial");
+  } else {
+    updateObjects();
+  }
 }
 
 /* Function to populate the current database values
@@ -33,10 +37,13 @@ function populateData() {
   localStorage.setItem('valueSlope', slope.value);
   localStorage.setItem('valueSupply', supply.value);
   localStorage.setItem('valueFlow', flow.value);
+  localStorage.setItem('valueTransport', String(localStorage.getItem('defaultTransport')));
   localStorage.setItem('valueManning', manning.value);
   localStorage.setItem('valueScenario', selectScenario.value);
-  localStorage.setItem('valueTransport', String(localStorage.getItem('defaultTransport')));
-  calcBalance("nonStable");
+  const selectTransport2 = document.querySelector('#selectTransport');
+  let textLabel2 = "Transport Coef. (3=bedload, 6=susp., current=" + String(localStorage.getItem('defaultTransport')) + ")";
+  selectTransport2.labels[0].textContent = textLabel2;
+  calcBalance();
 }
 
 function populateDataStable() {
@@ -50,62 +57,31 @@ function populateDataStable() {
 
 /* Function to set the Size, Slope, Supply, Flow & scenario 
 to the default values*/
-function updateObjects(defaultOriginal) {
-  /* 20231104 The "click" event for the button type "reset" did not seem to work.
-  changed the button type "reset" to a button type "button"
-  and called this function on its click events  */
-  /* const timeStamp0 = pauseAmount(2000); */
-  /* dateText1.value = defaultValues[0]; */
-  /* dateText2.value = defaultValues[1]; */
-  /* dateText3.value = defaultValues[2]; */
-  /* dateText4.value = defaultValues[3]; */
-  const defaultValues2 = [];
-  if (defaultOriginal === 'original') {
-    defaultValues2.push(String(28.66));
-    defaultValues2.push(String(0.3));
-    defaultValues2.push(String(9.02));
-    defaultValues2.push(String(11.1));
-    defaultValues2.push(String("scenario1.png"));
-    defaultValues2.push(String(0.035));
-  } else {
-    defaultValues2.push(String(localStorage.getItem('defaultSize')));
-    defaultValues2.push(String(localStorage.getItem('defaultSlope')));
-    defaultValues2.push(String(localStorage.getItem('defaultSupply')));
-    defaultValues2.push(String(localStorage.getItem('defaultFlow')));
-    defaultValues2.push(String(localStorage.getItem('defaultScenario')));
-    defaultValues2.push(String(localStorage.getItem('defaultManning')));
-  }
-  size.value = String(defaultValues2[0]);
+function updateObjects(initialStatus) {
+  size.value = String(localStorage.getItem('defaultSize'));
   output_size.textContent = size.value;
-  slope.value = String(defaultValues2[1]);
+  slope.value = String(localStorage.getItem('defaultSlope'));
   output.textContent = slope.value;
-  supply.value = String(defaultValues2[2]);
+  supply.value = String(localStorage.getItem('defaultSupply'));
   output_supply.textContent = supply.value;
-  flow.value = String(defaultValues2[3]);
+  flow.value = String(localStorage.getItem('defaultFlow'));
   output_flow.textContent = flow.value;
-  manning.value = String(defaultValues2[5]);
+  manning.value = String(localStorage.getItem('defaultManning'));
   output_manning.textContent = manning.value;
-  //output_slopeWatershed.textContent = Number(slopeWatershed.value).toFixed(2);
-  //output_areaWatershed.textContent = Number(areaWatershed.value).toFixed(1);
-  ctx2.clearRect(0, 0, width2, height2);
-  ctx2.beginPath();
-  ctx2.fillStyle = "rgb(0, 0, 0)";
-  ctx2.fillRect(0, 0, width2, height2);
-  const image3 = new Image();
-  selectScenario.value = String(defaultValues2[4]);
-  image3.src = selectScenario.value;
-  image3.addEventListener("load", () => ctx2.drawImage(image3, 70, 20));
-  selectNotes.value = '';
-  ///////////////////////////
-  //20231104 - I am not sure why I couldn't reference dateText4,
-  //which was defined as a constant, while the slider, labels, and select
-  //did not need to be redefined.
-  ///////////////////////////
-  //const dateText4b = document.querySelector('.dateText4');
-  //let strValue4 = defaultValues2.join(';  ');
-  //strValue4 = 'D50,S,Qs,Qw:  ' + strValue4;
-  //dateText4b.value = strValue4;
-  populateDataStable();
+  if (initialStatus === 'initial') {
+    ctx2.clearRect(0, 0, width2, height2);
+    ctx2.beginPath();
+    ctx2.fillStyle = "rgb(0, 0, 0)";
+    ctx2.fillRect(0, 0, width2, height2);
+    const image3 = new Image();
+    selectScenario.value = String(localStorage.getItem('defaultScenario'));
+    image3.src = selectScenario.value;
+    image3.addEventListener("load", () => ctx2.drawImage(image3, 70, 20));
+    selectNotes.value = '';
+  } else {
+    initialStatus = '';
+  }
+  populateData();
 }
 
 // Populates the default values with the original values.  Called when the "Orig" button is clicked.
@@ -1029,13 +1005,12 @@ selectNotes.addEventListener('change', function() {
 //calls "populateDataStable" which sets the database values to the current values and
 //sets the stable condition to the currrent values.
 if(localStorage.getItem('defaultSize')) {
-  updateObjects('default');
+  updateObjects('initial');
 } else {
-  populateStorage();
-  updateObjects('default');
+  populateStorage('initial');
 }
 
-/* Get reference to the "Setup" button and 
+/* Get reference to the "Set Stable" button and 
 adds an Event listener and function for the "setup" button click event.
 Calls the "populateStorage" function, which sets the default values in the database.
 */
@@ -1068,13 +1043,13 @@ size,slope,supply,flow, and scenario
 // const buttonReset = document.querySelector('.buttonReset');
 // buttonReset.addEventListener('click', resetDefault);
 
-//sets reference to the "set watershed" button
-//calls the "resetDefault" function
+//sets reference to the "Reset Original" button
+//calls the "populateStorageOriginal" function
 const buttonExcel = document.querySelector('.buttonExcel');
 buttonExcel.addEventListener('click', populateStorageOriginal);
 
-//sets reference to the "set default watershed" button
-//calls the "resetWatershedDefault" function
+//sets reference to the "Reset Stable" button
+//calls the "resetDefault" function
 const buttonDefault = document.querySelector('.buttonDefault');
 buttonDefault.addEventListener('click', resetDefault);
 
