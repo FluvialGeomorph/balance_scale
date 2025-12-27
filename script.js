@@ -108,6 +108,18 @@ function updateObjects(defaultOriginal) {
   populateDataStable();
 }
 
+// Populates the default values with the original values.  Called when the "Orig" button is clicked.
+function populateStorageOriginal() {
+  localStorage.setItem('defaultSize', String(28.66));
+  localStorage.setItem('defaultSlope', String(0.3));
+  localStorage.setItem('defaultSupply', String(9.02));
+  localStorage.setItem('defaultFlow', String(11.1));
+  localStorage.setItem('defaultTransport', String(5.7));
+  localStorage.setItem('defaultManning', String(0.035));
+  localStorage.setItem('defaultScenario', String("scenario1.png"));
+  updateObjects();
+}
+
 //calls updateObjects with the "default" argument.
 function resetDefault() {
   updateObjects("default");
@@ -1023,51 +1035,12 @@ if(localStorage.getItem('defaultSize')) {
   updateObjects('default');
 }
 
-/* Set reference to and populate 8 input text boxes upon opening the web page.
-*/
-//const watershedText1 = document.querySelector('.watershedText1');
-//const watershedText2 = document.querySelector('.watershedText2');
-//const watershedText3 = document.querySelector('.watershedText3');
-//const watershedText4 = document.querySelector('.watershedText4');
-//const watershedText5 = document.querySelector('.watershedText5');
-//const watershedText6 = document.querySelector('.watershedText6');
-//const watershedText7 = document.querySelector('.watershedText7');
-//const watershedText8 = document.querySelector('.watershedText8');
-//watershedText1.value = '1';
-//watershedText2.value = '2';
-//watershedText3.value = '3';
-//watershedText4.value = '4';
-//watershedText5.value = '5';
-//watershedText6.value = '6';
-//watershedText7.value = '7';
-//watershedText8.value = '8';
-
 /* Get reference to the "Setup" button and 
 adds an Event listener and function for the "setup" button click event.
 Calls the "populateStorage" function, which sets the default values in the database.
 */
 const buttonSetup = document.querySelector('.buttonSetup');
 buttonSetup.addEventListener("click", (event) => {
-  //if (watershedText4.value === '4') {
-  //  watershedText1.value = '';
-  //  watershedText2.value = '';
-  //  watershedText3.value = '';
-  //  watershedText4.value = '';
-  //  watershedText5.value = '';
-  //  watershedText6.value = '';
-  //  watershedText7.value = '';
-  //  watershedText8.value = '';
-  //} else {
-  //  watershedText1.value = '1';
-  //  watershedText2.value = '2';
-  //  watershedText3.value = '3';
-  //  watershedText4.value = '4';
-  //  watershedText5.value = '5';
-  //  watershedText6.value = '6';
-  //  watershedText7.value = '7';
-  //  watershedText8.value = '8';
-  //}
-  // Set the default values with the current slider & select values
   populateStorage();
 });
 
@@ -1092,18 +1065,18 @@ size,slope,supply,flow, and scenario
 
 //sets reference to the "reset default" button
 //calls the "resetDefault" function
-const buttonReset = document.querySelector('.buttonReset');
-buttonReset.addEventListener('click', resetDefault);
+// const buttonReset = document.querySelector('.buttonReset');
+// buttonReset.addEventListener('click', resetDefault);
 
 //sets reference to the "set watershed" button
-//calls the "resetOriginal" function
+//calls the "resetDefault" function
 const buttonExcel = document.querySelector('.buttonExcel');
-buttonExcel.addEventListener('click', resetOriginal);
+buttonExcel.addEventListener('click', populateStorageOriginal);
 
 //sets reference to the "set default watershed" button
 //calls the "resetWatershedDefault" function
 const buttonDefault = document.querySelector('.buttonDefault');
-buttonDefault.addEventListener('click', resetWatershedDefault);
+buttonDefault.addEventListener('click', resetDefault);
 
 // Declare “SetTransport” (buttonSetTransport) button variable and event listener.  
 // If a value is selected, sets the transport default value, updates the label, calls resetDefault, and clears the selected value.
