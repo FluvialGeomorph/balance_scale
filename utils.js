@@ -581,17 +581,29 @@ function updateScaleBar() {
   ctx.font = "12px arial";
   let textFlow = "FLOW = ";
   //ctx.strokeText(textFlow, connectorX2 - 20, rightSideBarRightBottomY + 65);
-  ctx.fillText(textFlow, connectorX2 - 25, rightSideBarRightBottomY + 65);
+  //ctx.fillText(textFlow, connectorX2 - 25, rightSideBarRightBottomY + 65);
+  ctx.fillText(textFlow, connectorX2 - 25, rightSideBarRightBottomY + 54);
   ctx.fillStyle = "white";
   ctx.font = "12px arial";
   textFlow = localStorage.getItem('valueFlow');
   //ctx.strokeText(textFlow, connectorX2 - 10, rightSideBarRightBottomY + 85);
-  ctx.fillText(textFlow, connectorX2 - 13, rightSideBarRightBottomY + 85);
+  //ctx.fillText(textFlow, connectorX2 - 13, rightSideBarRightBottomY + 85);
+  ctx.fillText(textFlow, connectorX2 - 13, rightSideBarRightBottomY + 67);
+  //add Manning's N text in the flow weight
+  ctx.fillStyle = "white";
+  ctx.font = "12px arial";
+  let textFlow2 = "n = ";
+  ctx.fillText(textFlow2, connectorX2 - 10, rightSideBarRightBottomY + 82);
+  ctx.fillStyle = "white";
+  ctx.font = "12px arial";
+  textFlow2 = localStorage.getItem('valueManning');
+  ctx.fillText(textFlow2, connectorX2 - 16, rightSideBarRightBottomY + 96);
   
   //draws a vertical arrow in the flow weight
   ctx.strokeStyle = "rgb(255, 255, 255)";
   ctx.beginPath();
-  ctx.moveTo(connectorX2, rightSideBarRightBottomY + 95);
+  //ctx.moveTo(connectorX2, rightSideBarRightBottomY + 95);
+  ctx.moveTo(connectorX2, rightSideBarRightBottomY + 100);
   ctx.lineTo(connectorX2, rightSideBarRightBottomY + 115);
   ctx.lineWidth = 2;
   ctx.stroke();
