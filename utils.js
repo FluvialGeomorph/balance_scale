@@ -663,18 +663,27 @@ function updateScaleBar() {
   const balancePercent = localStorage.getItem('calcBalancePercent');
   //20241125:  Change the Base text from "Supply (Aggradation) vs. Transport (Degradation)"; to "Transport (Degradation) vs. Supply (Aggradation)";
   //let belowBaseText = "Supply (Aggradation) vs. Transport (Degradation)";
-  let belowBaseText = "Transport (Degradation) vs. Supply (Aggradation)";
+  //20251227:  change to multiline label
+  //let belowBaseText = "Transport (Degradation) vs. Supply (Aggradation)";
+  let belowBaseText = "Supply (Aggradation +)";
+  let belowBaseText2 = "vs.";
+  let belowBaseText3 = "Transport (Degradation -)";
   ctx.strokeStyle = "rgb(255, 255, 255)";
   ctx.fillStyle = "rgb(255, 255, 255)";
   ctx.fillStyle = "white";
   ctx.font = "14px arial";
-  ctx.fillText(belowBaseText, centerScaleX - 150, baseScaleBottomY + 30);
+  //ctx.fillText(belowBaseText, centerScaleX - 150, baseScaleBottomY + 30);
+  ctx.fillText(belowBaseText, centerScaleX - 66, baseScaleBottomY + 14);
+  ctx.fillText(belowBaseText2, centerScaleX - 5, baseScaleBottomY + 32);
+  ctx.fillText(belowBaseText3, centerScaleX - 71, baseScaleBottomY + 50);
   belowBaseText = balancePercent + "%";
   ctx.strokeStyle = "rgb(255, 255, 255)";
   ctx.fillStyle = "rgb(255, 255, 255)";
   ctx.fillStyle = "white";
-  ctx.font = "14px arial";
-  ctx.fillText(belowBaseText, centerScaleX - 20, baseScaleBottomY + 60);
+  //ctx.font = "14px arial";
+  ctx.font = "18px arial";
+  //ctx.fillText(belowBaseText, centerScaleX - 20, baseScaleBottomY + 60);
+  ctx.fillText(belowBaseText, centerScaleX - 7, baseScaleBottomY + 74);
   
   //add text above the scale
   let aboveScaleText = "Lane's Dynamic Equilibrium Balance Scale";
