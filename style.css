@@ -28,6 +28,10 @@ label {
   grid-column: 5;
   grid-row: 4;
 }
+.manningDiv {
+  grid-column: 5;
+  grid-row: 6;
+}
 /* .areaWatershedDiv {
   grid-column: 7;
   grid-row: 6;

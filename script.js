@@ -13,6 +13,7 @@ function populateStorage() {
   localStorage.setItem('defaultSlope', slope.value);
   localStorage.setItem('defaultSupply', supply.value);
   localStorage.setItem('defaultFlow', flow.value);
+  localStorage.setItem('defaultManning', manning.value);
   localStorage.setItem('defaultScenario', selectScenario.value);
   populateDataStable();
 }
@@ -27,6 +28,7 @@ function populateData() {
   localStorage.setItem('valueSlope', slope.value);
   localStorage.setItem('valueSupply', supply.value);
   localStorage.setItem('valueFlow', flow.value);
+  localStorage.setItem('valueManning', manning.value);
   localStorage.setItem('valueScenario', selectScenario.value);
   calcBalance("nonStable");
 }
@@ -58,12 +60,14 @@ function updateObjects(defaultOriginal) {
     defaultValues2.push(String(9.02));
     defaultValues2.push(String(11.1));
     defaultValues2.push(String("scenario1.png"));
+    defaultValues2.push(String(0.035));
   } else {
     defaultValues2.push(String(localStorage.getItem('defaultSize')));
     defaultValues2.push(String(localStorage.getItem('defaultSlope')));
     defaultValues2.push(String(localStorage.getItem('defaultSupply')));
     defaultValues2.push(String(localStorage.getItem('defaultFlow')));
     defaultValues2.push(String(localStorage.getItem('defaultScenario')));
+    defaultValues2.push(String(localStorage.getItem('defaultManning')));
   }
   size.value = String(defaultValues2[0]);
   output_size.textContent = size.value;
@@ -73,6 +77,8 @@ function updateObjects(defaultOriginal) {
   output_supply.textContent = supply.value;
   flow.value = String(defaultValues2[3]);
   output_flow.textContent = flow.value;
+  manning.value = String(defaultValues2[5]);
+  output_manning.textContent = manning.value;
   //output_slopeWatershed.textContent = Number(slopeWatershed.value).toFixed(2);
   //output_areaWatershed.textContent = Number(areaWatershed.value).toFixed(1);
   ctx2.clearRect(0, 0, width2, height2);
@@ -941,6 +947,15 @@ const output_flow = document.querySelector('.flow-output');
 output_flow.textContent = flow.value;
 flow.addEventListener('input', function() {
   output_flow.textContent = flow.value;
+  populateData();
+});
+
+//5.  Declare manning slider variables and event listener.  Updates the label and calls populateData.
+const manning = document.querySelector('#manning');
+const output_manning = document.querySelector('.manning-output');
+output_manning.textContent = manning.value;
+manning.addEventListener('input', function() {
+  output_manning.textContent = manning.value;
   populateData();
 });
 
