@@ -15,6 +15,11 @@ function populateStorage() {
   localStorage.setItem('defaultFlow', flow.value);
   localStorage.setItem('defaultManning', manning.value);
   localStorage.setItem('defaultScenario', selectScenario.value);
+  if (localStorage.getItem('defaultTransport')) {
+    //pass
+  } else {
+    localStorage.setItem('defaultTransport', String(5.7));
+  }
   populateDataStable();
 }
 
@@ -30,6 +35,7 @@ function populateData() {
   localStorage.setItem('valueFlow', flow.value);
   localStorage.setItem('valueManning', manning.value);
   localStorage.setItem('valueScenario', selectScenario.value);
+  localStorage.setItem('valueTransport', String(localStorage.getItem('defaultTransport')));
   calcBalance("nonStable");
 }
 
@@ -975,6 +981,9 @@ manning.addEventListener('input', function() {
 //  output_slopeWatershed.textContent = Number(slopeWatershed.value).toFixed(2);
 //});
 
+//Declare transport coefficient selection variable.
+const selectTransport = document.querySelector('#selectTransport');
+
 /* Set up the select input for the scenario selection. 
 */
 //object reference to the select input, which allows selecting
@@ -1123,3 +1132,18 @@ buttonExcel.addEventListener('click', resetOriginal);
 //calls the "resetWatershedDefault" function
 const buttonDefault = document.querySelector('.buttonDefault');
 buttonDefault.addEventListener('click', resetWatershedDefault);
+
+// Declare “SetTransport” (buttonSetTransport) button variable and event listener.  
+// If a value is selected, sets the transport default value, updates the label, calls resetDefault, and clears the selected value.
+const buttonSetTransport = document.querySelector('.buttonSetTransport');
+buttonSetTransport.addEventListener("click", (event) => {
+  if (selectTransport.value === '') {
+    //pass
+  } else {
+    localStorage.setItem('defaultTransport', selectTransport.value);
+    resetDefault();
+    let textLabel = "Transport Coef. (3=bedload, 6=susp., current=" + String(localStorage.getItem('defaultTransport')) + ")";
+    selectTransport.labels[0].textContent = textLabel;
+    selectTransport.value = "";
+  }
+});

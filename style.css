@@ -32,6 +32,10 @@ label {
   grid-column: 5;
   grid-row: 6;
 }
+.selectTransportDiv {
+  grid-column: 8;
+  grid-row: 9;
+}
 /* .areaWatershedDiv {
   grid-column: 7;
   grid-row: 6;
@@ -69,8 +73,11 @@ label {
   position: relative;
   left: 97px;
 }
-
-
+.setTransportDiv {
+  grid-column: 7;
+  grid-row: 9;
+  justify-self: end;
+}
 
 .selectScenarioDiv {
   grid-column: 6;
