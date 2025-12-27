@@ -73,8 +73,8 @@ function updateObjects(defaultOriginal) {
   output_supply.textContent = supply.value;
   flow.value = String(defaultValues2[3]);
   output_flow.textContent = flow.value;
-  output_slopeWatershed.textContent = Number(slopeWatershed.value).toFixed(2);
-  output_areaWatershed.textContent = Number(areaWatershed.value).toFixed(1);
+  //output_slopeWatershed.textContent = Number(slopeWatershed.value).toFixed(2);
+  //output_areaWatershed.textContent = Number(areaWatershed.value).toFixed(1);
   ctx2.clearRect(0, 0, width2, height2);
   ctx2.beginPath();
   ctx2.fillStyle = "rgb(0, 0, 0)";
@@ -945,20 +945,20 @@ flow.addEventListener('input', function() {
 });
 
 //drainage area
-const areaWatershed = document.querySelector('#areaWatershed');
-const output_areaWatershed = document.querySelector('.areaWatershed-output');
-output_areaWatershed.textContent = Number(areaWatershed.value).toFixed(1);
-areaWatershed.addEventListener('input', function() {
-  output_areaWatershed.textContent = Number(areaWatershed.value).toFixed(1);
-});
+//const areaWatershed = document.querySelector('#areaWatershed');
+//const output_areaWatershed = document.querySelector('.areaWatershed-output');
+//output_areaWatershed.textContent = Number(areaWatershed.value).toFixed(1);
+//areaWatershed.addEventListener('input', function() {
+//  output_areaWatershed.textContent = Number(areaWatershed.value).toFixed(1);
+//});
 
 //watershed slope
-const slopeWatershed = document.querySelector('#slopeWatershed');
-const output_slopeWatershed = document.querySelector('.slopeWatershed-output');
-output_slopeWatershed.textContent = Number(slopeWatershed.value).toFixed(2);
-slopeWatershed.addEventListener('input', function() {
-  output_slopeWatershed.textContent = Number(slopeWatershed.value).toFixed(2);
-});
+//const slopeWatershed = document.querySelector('#slopeWatershed');
+//const output_slopeWatershed = document.querySelector('.slopeWatershed-output');
+//output_slopeWatershed.textContent = Number(slopeWatershed.value).toFixed(2);
+//slopeWatershed.addEventListener('input', function() {
+//  output_slopeWatershed.textContent = Number(slopeWatershed.value).toFixed(2);
+//});
 
 /* Set up the select input for the scenario selection. 
 */
