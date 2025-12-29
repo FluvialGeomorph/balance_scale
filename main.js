@@ -179,7 +179,7 @@ selectNotes.addEventListener('change', function() {
 
 //Initial check - If default values are present, calls updateObjects.  If not, calls populateStorage. 
 if(localStorage.getItem('defaultSize')) {
-  updateObjects();
+  updateObjects('initial');
 } else {
   populateStorage('initial');
 }
