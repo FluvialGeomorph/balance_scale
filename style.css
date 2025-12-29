@@ -38,20 +38,20 @@ label {
 
 .defaultDiv {
   grid-column: 7;
-  grid-row: 7;
+  grid-row: 8;
   position: relative;
   left: 175px;
 }
 .submitDiv {
   grid-column: 7;
-  grid-row: 7;
+  grid-row: 8;
   position: relative;
   left: 275px;
 }
 
 .buttonDiv {
   grid-column: 8;
-  grid-row: 7;
+  grid-row: 8;
   position: relative;
   left: 20px;
 }
