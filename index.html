@@ -4,79 +4,96 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lanes Balance Scale</title>
-    <script src="script.js" defer></script>
+    <script src="balance_scale.js" defer></script>
+    <script src="calc.js" defer></script>
+    <!-- <script src="chart.js" defer></script> -->
+    <script src="main.js" defer></script>
     <link href="style.css" rel="stylesheet">
   </head>
   <body>
     <canvas width="690" height="690" class="myCanvas">
       <p>Add suitable fallback here.</p>
     </canvas>
-    <canvas width="950" height="690" class="myCanvas2">
-      <p>Add suitable fallback here.</p>
-    </canvas>
     <form>
       <div class="wrapper">
         <div class="sizeDiv">
           <label for="size">Bed Material Size (mm): </label>
-          <input type="range" name="size" id="size" min="2.00" max="110.00" step="0.01" value="28.66">
-          <output class="size-output" for="size"></output>
+          <select id="size" name="size">
+            <!-- Options will be added here by JavaScript -->
+          </select>   
         </div>
         <div class="slopeDiv">
           <label for="slope">Channel Slope (%): </label>
-          <input type="range" name="slope" id="slope" min="0.01" max="1.0" step="0.001" value="0.3">
-          <output class="slope-output" for="slope"></output>
+          <select id="slope" name="slope">
+            <!-- Options will be added here by JavaScript -->
+          </select>
         </div>
         <div class="supplyDiv">
-          <label for="supply">Bed Load Supply (ft^3/hr per foot width): </label>
-          <input type="range" name="supply" id="supply" min="1.00" max="50.00" step="0.01" value="9.02">
-          <output class="supply-output" for="supply"></output>
+          <label for="supply">Bed Material Supply (tons/day): </label>
+          <select id="supply" name="supply">
+            <!-- Options will be added here by JavaScript -->
+          </select>
         </div>
         <div class="flowDiv">
-          <label for="flow">Flow Rate (cfs per foot width): </label>
-          <input type="range" name="flow" id="flow" min="2.0" max="16.0" step="0.1" value="11.1">
-          <output class="flow-output" for="flow"></output>
+          <label for="flow">Flow Rate (cfs): </label>
+          <select id="flow" name="flow">
+            <!-- Options will be added here by JavaScript -->
+          </select>   
         </div>
-        <div class="areaWatershedDiv">
-          <label for="areaWatershed">Watershed Area (sq.mi.): </label>
-          <input type="range" name="areaWatershed" id="areaWatershed" min="0.1" max="50.0" step="0.1" value="15.0">
-          <output class="areaWatershed-output" for="areaWatershed"></output>
+        <div class="manningDiv">
+          <label for="manning">Manning's Roughness Coefficient (n): </label>
+          <select id="manning" name="manning">
+            <!-- Options will be added here by JavaScript -->
+          </select>   
         </div>
-        <div class="slopeWatershedDiv">
-          <label for="slopeWatershed">Watershed Slope (%): </label>
-          <input type="range" name="slopeWatershed" id="slopeWatershed" min="0.01" max="1.0" step="0.01" value="0.3">
-          <output class="slopeWatershed-output" for="slopeWatershed"></output>
+        <div class="selectTransportDiv">
+          <label for="selectTransport">Transport Coef. (m), current=5.7</label>
+          <select id="selectTransport" name="selectTransport">
+            <!-- Options will be added here by JavaScript -->
+          </select>   
         </div>
         <div class="defaultDiv">
-          <button class="buttonDefault" type="button">Default Watershed</button>
+          <button class="buttonDefault" type="button">Reset</button>
         </div>
         <div class="submitDiv">
-          <button class="buttonExcel" type="button">Set Watershed</button>
+          <button class="buttonExcel" type="button">Orig</button>
         </div>
         <div class="buttonDiv">
-          <button class="buttonSetup" type="button">Set Stable</button>
+          <button class="buttonSetup" type="button">Set</button>
         </div>
-        <div class="resetDiv">
-          <button class="buttonReset" type="button">Reset Stable</button>
-        </div>
-
         <div class="selectScenarioDiv">
           <label for="selectScenario">Select Scenario:</label>
           <select id="selectScenario" name="selectScenario">
             <option value="scenario1.png" selected>Scenario 1</option>
             <option value="scenario2.png">Meander Scenario</option>
             <option value="scenario3.png">Scenario 2</option>
-            <!-- <option value="scenario4.png">Scenario 3</option> -->
           </select>   
         </div>
         <div class="selectNotesDiv">
           <label for="selectNotes">Notes:</label>
           <select id="selectNotes" name="selectNotes">
-            <option value="note1.png">Note 1</option>
-            <option value="note2.png">Note 2</option>
+            <option value="note.png">Notes</option>
           </select>   
         </div>
       </div>
     </form>
+    <canvas width="690" height="690" class="myCanvas2">
+      <p>Add suitable fallback here.</p>
+    </canvas>
+    <!-- <form>
+      <div class="wrapper2">
+        <div class="widthDiv">
+          <label for="selectWidth">Stream Width (feet): </label>
+          <select id="selectWidth" name="selectWidth">
+          </select>   
+        </div>
+        <div class="densityDiv">
+          <label for="selectDensity">Bed Material Density (lbs/ft^3): </label>
+          <select id="selectDensity" name="selectDensity">
+          </select>   
+        </div>
+      </div>
+    </form> -->
   </body>
 <!-- 
 Answers for Scenario 1, Meander Scenario, and Scenario 2 assuming the following stable condition:
