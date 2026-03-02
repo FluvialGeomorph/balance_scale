@@ -8,29 +8,59 @@ label {
 .wrapper {
   display: grid;
   grid-template-columns: 40px 1fr 30px 30px repeat(4, 1fr);
-  gap: 5px;
-  grid-template-rows: 1px 1fr 15px 1fr 15px 1fr 15px 1fr 5px 1fr 5px;
+  gap: 3px;
+  grid-template-rows: 1px 1fr 25px 1fr 25px 1fr 50px 1fr 10px 1fr;
 }
+
 .sizeDiv {
   grid-column: 2;
   grid-row: 2;
 }
+.textSizeDiv{
+  grid-column: 2;
+  grid-row: 3;
+}
+
 .supplyDiv {
   grid-column: 2;
   grid-row: 4;
 }
+
+.textSupplyDiv{
+  grid-column: 2;
+  grid-row: 5;
+}
+
 .slopeDiv {
   grid-column: 5;
   grid-row: 2;
 }
+
+.textSlopeDiv{
+  grid-column: 5;
+  grid-row: 3;
+}
+
 .flowDiv {
   grid-column: 5;
   grid-row: 4;
 }
+
+.textFlowDiv{
+  grid-column: 5;
+  grid-row: 5;
+}
+
 .manningDiv {
   grid-column: 2;
   grid-row: 6;
 }
+
+.textManningDiv{
+  grid-column: 2;
+  grid-row: 7;
+}
+
 .selectTransportDiv {
   grid-column: 5;
   grid-row: 8;
@@ -68,19 +98,95 @@ label {
   justify-self: start;
 }
 
-/* .wrapper2 {
+ .wrapper2 {
   display: grid;
-  grid-template-columns: 40px 1fr 30px 30px repeat(4, 1fr);
+  grid-template-columns: 200px 10px 200px 10px 200px 10px;
   gap: 5px;
-  grid-template-rows: 1px 1fr 15px 1fr 15px 1fr 15px 1fr 5px 1fr 5px;
+  grid-template-rows: repeat(6, 1fr) 30px;
 }
 
-.widthDiv {
-  grid-column: 2;
+.defaultSizeDiv {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.defaultSlopeDiv {
+  grid-column: 1;
   grid-row: 2;
 }
 
-.densityDiv {
+.defaultSupplyDiv {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.defaultFlowDiv {
+  grid-column: 1;
+  grid-row: 4;
+}
+
+.defaultManningDiv {
+  grid-column: 1;
+  grid-row: 5;
+}
+
+.defaultTransportDiv {
+  grid-column: 1;
+  grid-row: 6;
+}
+
+.minSizeDiv {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.minSlopeDiv {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.minSupplyDiv {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+.minFlowDiv {
+  grid-column: 3;
+  grid-row: 4;
+}
+
+.minManningDiv {
+  grid-column: 3;
+  grid-row: 5;
+}
+
+.maxSizeDiv {
+  grid-column: 5;
+  grid-row: 1;
+}
+
+.maxSlopeDiv {
   grid-column: 5;
   grid-row: 2;
-} */
+}
+
+.maxSupplyDiv {
+  grid-column: 5;
+  grid-row: 3;
+}
+
+.maxFlowDiv {
+  grid-column: 5;
+  grid-row: 4;
+}
+
+.maxManningDiv {
+  grid-column: 5;
+  grid-row: 5;
+}
+.buttonSetRangesDefaultsDiv {
+  grid-column: 3;
+  grid-row: 6;
+  position: relative;
+  top: 45%;
+}
