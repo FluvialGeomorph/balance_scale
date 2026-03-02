@@ -29,19 +29,33 @@ function populateData() {
   localStorage.setItem('valueTransport', String(localStorage.getItem('defaultTransport')));
   localStorage.setItem('valueManning', manning.value);
   localStorage.setItem('valueScenario', selectScenario.value);
-  const selectTransport2 = document.querySelector('#selectTransport');
-  let textLabel2 = "Transport Coef. (m), current=" + String(localStorage.getItem('defaultTransport'));
-  selectTransport2.labels[0].textContent = textLabel2;
+  textSize.value = size.value;
+  textSlope.value = slope.value;
+  textSupply.value = supply.value;
+  textFlow.value = flow.value;
+  textManning.value = manning.value;
   calcBalance();
 }
 
-// Sets the select, and image objects to the default values
+// Sets the select, and image objects to the default values - called after "reset"(1st), "set"(2nd), or the "orig"(2nd) button is clicked.
 function updateObjects(initialStatus) {
   size.value = String(localStorage.getItem('defaultSize'));
+  output_size.textContent = size.value;
   slope.value = String(localStorage.getItem('defaultSlope'));
+  output.textContent = slope.value;
   supply.value = String(localStorage.getItem('defaultSupply'));
+  output_supply.textContent = supply.value;
   flow.value = String(localStorage.getItem('defaultFlow'));
+  output_flow.textContent = flow.value;
   manning.value = String(localStorage.getItem('defaultManning'));
+  output_manning.textContent = manning.value;
+  selectTransport.labels[0].textContent = "Transport Coef. (m), current=" + String(localStorage.getItem('defaultTransport'));
+  textDefaultSize.value = String(localStorage.getItem('defaultSize'));
+  textDefaultSlope.value = String(localStorage.getItem('defaultSlope'));
+  textDefaultSupply.value = String(localStorage.getItem('defaultSupply'));
+  textDefaultFlow.value = String(localStorage.getItem('defaultFlow'));
+  textDefaultManning.value = String(localStorage.getItem('defaultManning'));
+  textDefaultTransport.value = String(localStorage.getItem('defaultTransport'));
   if (initialStatus === 'initial') {
     ctx2.clearRect(0, 0, width2, height2);
     ctx2.beginPath();
@@ -52,9 +66,27 @@ function updateObjects(initialStatus) {
     image3.src = selectScenario.value;
     image3.addEventListener("load", () => ctx2.drawImage(image3, 20, 20));
     selectNotes.value = '';
+    textMinSize.value = size.min;
+    textMinSlope.value = slope.min;
+    textMinSupply.value = supply.min;
+    textMinFlow.value = flow.min;
+    textMinManning.value = manning.min;
+    textMaxSize.value = size.max;
+    textMaxSlope.value = slope.max;
+    //console.log(`textDefaultSupply.value: ${textDefaultSupply.value} tons/day`);
+    //let new_max_supply = String(Math.round(Number(textDefaultSupply.value) * 10.0));
+    //console.log(`new_max_supply: ${new_max_supply} tons/day`);
+    //supply.setAttribute('max', String(Math.round(Number(textDefaultSupply.value) * 10.0)));
+    supply.setAttribute('max', String(Math.round(Number(textDefaultSupply.value) * 2.0)));
+    textMaxSupply.value = supply.max;
+    flow.setAttribute('max', String(Math.round(Number(textDefaultFlow.value) * 2.0)));
+    textMaxFlow.value = flow.max;
+    textMaxManning.value = manning.max;
   } else {
     initialStatus = '';
   }
+  // const selectTransport2 = document.querySelector('#selectTransport');
+  // let textLabel2 = "Transport Coef. (m), current=" + String(localStorage.getItem('defaultTransport'));
   populateData();
 }
 
@@ -141,95 +173,49 @@ window.addEventListener('resize', () => {
   myBalanceScale.calc_geometry(ctx,canvas.width); //MOD 20260219
   populateData();
 });
-
-//Declare the 5 selection boxes for Sed Size, Slope, Supply, Flow, & Roughness and their event listeners.  
-//1.  Declare bedload (sediment) size selection variable and event listener.  Calls populateData.
+//Declare the slider bars and their event listeners.
+//1.  Declare bedload (sediment) size slider variables.  Updates the label and calls populateData.
 const size = document.querySelector('#size');
-for (let i = 50; i < 1000; i++) {
-  const option = document.createElement("option");
-  option.value = (i/1000).toFixed(3);
-  option.innerHTML = (i/1000).toFixed(3);
-  size.appendChild(option);
-}
-for (let i = 10; i < 1101; i++) {
-  const option = document.createElement("option");
-  option.value = (i/10).toFixed(1);
-  option.innerHTML = (i/10).toFixed(1);
-  size.appendChild(option);
-}
-size.addEventListener('change', function() {
+const output_size = document.querySelector('.size-output');
+output_size.textContent = size.value;
+size.addEventListener('input', function() {
+  output_size.textContent = size.value;
   populateData();
 });
 
-//2.  Declare slope selection variable and event listener.  Calls populateData.
+//2.  Declare slope slider variables and event listener.  Updates the label and calls populateData.
 const slope = document.querySelector('#slope');
-for (let i = 1; i < 1001; i++) {
-  const option = document.createElement("option");
-  option.value = (i/1000).toFixed(3);
-  option.innerHTML = (i/1000).toFixed(3);
-  slope.appendChild(option);
-}
-slope.addEventListener('change', function() {
+const output = document.querySelector('.slope-output');
+output.textContent = slope.value;
+slope.addEventListener('input', function() {
+  output.textContent = slope.value;
   populateData();
 });
 
-//3.  Declare Bed Material Supply selection variable and event listener.  Calls populateData.
+//3.  Declare bedload (sediment) supply variables and event listener.  Updates the label and calls populateData.
 const supply = document.querySelector('#supply');
-for (let i = 1; i < 10001; i++) {
-  const option = document.createElement("option");
-  option.value = (i).toFixed(0);
-  option.innerHTML = (i).toFixed(0);
-  supply.appendChild(option);
-}
-for (let i = 10000; i < 50001; i += 500) {
-  const option = document.createElement("option");
-  option.value = (i).toFixed(0);
-  option.innerHTML = (i).toFixed(0);
-  supply.appendChild(option);
-}
-for (let i = 50000; i < 250001; i += 5000) {
-  const option = document.createElement("option");
-  option.value = (i).toFixed(0);
-  option.innerHTML = (i).toFixed(0);
-  supply.appendChild(option);
-}
-supply.addEventListener('change', function() {
+const output_supply = document.querySelector('.supply-output');
+output_supply.textContent = supply.value;
+supply.addEventListener('input', function() {
+  output_supply.textContent = supply.value;
   populateData();
 });
 
-//4.  Declare water flow selection variable and event listener.  Calls populateData.
+//4.  Declare water flow slider variables and event listener.  Updates the label and calls populateData.
 const flow = document.querySelector('#flow');
-for (let i = 1; i < 10001; i++) {
-  const option = document.createElement("option");
-  option.value = (i).toFixed(0);
-  option.innerHTML = (i).toFixed(0);
-  flow.appendChild(option);
-}
-for (let i = 10000; i < 50001; i += 500) {
-  const option = document.createElement("option");
-  option.value = (i).toFixed(0);
-  option.innerHTML = (i).toFixed(0);
-  flow.appendChild(option);
-}
-for (let i = 50000; i < 205001; i += 5000) {
-  const option = document.createElement("option");
-  option.value = (i).toFixed(0);
-  option.innerHTML = (i).toFixed(0);
-  flow.appendChild(option);
-}
-flow.addEventListener('change', function() {
+const output_flow = document.querySelector('.flow-output');
+output_flow.textContent = flow.value;
+flow.addEventListener('input', function() {
+  output_flow.textContent = flow.value;
   populateData();
 });
 
-//5.  Declare manning selection variable and event listener.  Calls populateData.
+//5.  Declare manning slider variables and event listener.  Updates the label and calls populateData.
 const manning = document.querySelector('#manning');
-for (let i = 10; i < 121; i++) {
-  const option = document.createElement("option");
-  option.value = (i/1000).toFixed(3);
-  option.innerHTML = (i/1000).toFixed(3);
-  manning.appendChild(option);
-}
-manning.addEventListener('change', function() {
+const output_manning = document.querySelector('.manning-output');
+output_manning.textContent = manning.value;
+manning.addEventListener('input', function() {
+  output_manning.textContent = manning.value;
   populateData();
 });
 
@@ -239,37 +225,12 @@ const option0 = document.createElement("option");
 option0.value = "";
 option0.innerHTML = "";
 selectTransport.appendChild(option0);
-for (let i = 30; i < 61; i++) {
+for (let i = 20; i < 61; i++) {
   const option = document.createElement("option");
   option.value = (i/10).toFixed(3);
   option.innerHTML = (i/10).toFixed(3);
   selectTransport.appendChild(option);
 }
-
-//Declare width selection variable.
-// const selectWidth = document.querySelector('#selectWidth');
-// const option1 = document.createElement("option");
-// option1.value = "";
-// option1.innerHTML = "";
-// selectWidth.appendChild(option1);
-// for (let i = 30; i < 61; i++) {
-//   const option = document.createElement("option");
-//   option.value = (i/10).toFixed(3);
-//   option.innerHTML = (i/10).toFixed(3);
-//   selectWidth.appendChild(option);
-// }
-//Declare density selection variable.
-// const selectDensity = document.querySelector('#selectDensity');
-// const option2 = document.createElement("option");
-// option2.value = "";
-// option2.innerHTML = "";
-// selectDensity.appendChild(option2);
-// for (let i = 30; i < 61; i++) {
-//   const option = document.createElement("option");
-//   option.value = (i/10).toFixed(3);
-//   option.innerHTML = (i/10).toFixed(3);
-//   selectDensity.appendChild(option);
-// }
 
 //Declare Scenario selection variable and event listener.  Resets canvas2, calls populateData, and clears the Notes selection variable.
 const selectScenario = document.querySelector('#selectScenario');
@@ -297,6 +258,57 @@ selectNotes.addEventListener('change', function() {
   image5.addEventListener("load", () => ctx2.drawImage(image5, 20, 20));
   selectScenario.value = '';
 });
+
+//Declare the size,slope,supply,flow, and manning text input boxes and their event listeners
+const textSize = document.querySelector('#textSize');
+textSize.addEventListener("change", (event) => {
+  size.value = textSize.value;
+  output_size.textContent = size.value;
+  populateData();
+});
+const textSlope = document.querySelector('#textSlope');
+textSlope.addEventListener("change", (event) => {
+  slope.value = textSlope.value;
+  output.textContent = slope.value;
+  populateData();
+});
+const textSupply = document.querySelector('#textSupply');
+textSupply.addEventListener("change", (event) => {
+  supply.value = textSupply.value;
+  output_supply.textContent = supply.value;
+  populateData();
+});
+const textFlow = document.querySelector('#textFlow');
+textFlow.addEventListener("change", (event) => {
+  flow.value = textFlow.value;
+  output_flow.textContent = flow.value;
+  populateData();
+});
+const textManning = document.querySelector('#textManning');
+textManning.addEventListener("change", (event) => {
+  manning.value = textManning.value;
+  output_manning.textContent = manning.value;
+  populateData();
+});
+
+
+//Declare the Default, Min, and Max Text Input Elements
+const textDefaultSize = document.querySelector('#textDefaultSize');
+const textDefaultSlope = document.querySelector('#textDefaultSlope');
+const textDefaultSupply = document.querySelector('#textDefaultSupply');
+const textDefaultFlow = document.querySelector('#textDefaultFlow');
+const textDefaultManning = document.querySelector('#textDefaultManning');
+const textDefaultTransport = document.querySelector('#textDefaultTransport');
+const textMinSize = document.querySelector('#textMinSize');
+const textMinSlope = document.querySelector('#textMinSlope');
+const textMinSupply = document.querySelector('#textMinSupply');
+const textMinFlow = document.querySelector('#textMinFlow');
+const textMinManning = document.querySelector('#textMinManning');
+const textMaxSize = document.querySelector('#textMaxSize');
+const textMaxSlope = document.querySelector('#textMaxSlope');
+const textMaxSupply = document.querySelector('#textMaxSupply');
+const textMaxFlow = document.querySelector('#textMaxFlow');
+const textMaxManning = document.querySelector('#textMaxManning');
 
 //Initial check - If default values are present, calls updateObjects.  If not, call populateStorageOriginal - sets the default (stable) values to the original values.
 if(localStorage.getItem('defaultSize')) {
@@ -327,3 +339,26 @@ buttonExcel.addEventListener('click', populateStorageOriginal);
 // Declare “Reset” (buttonReset) variable and event listener:  Calls resetDefault - calls updateObjects to set the current values to the default (stable) values.
 const buttonDefault = document.querySelector('.buttonDefault');
 buttonDefault.addEventListener('click', resetDefault);
+
+// Mod 20260302 - Populate Defaults and Ranges with the text inputs (located at the bottom of the app).
+const buttonSetRangesDefaultsDiv = document.querySelector('.buttonSetRangesDefaultsDiv');
+buttonSetRangesDefaultsDiv.addEventListener("click", (event) => {
+  localStorage.setItem('defaultSize', textDefaultSize.value);
+  localStorage.setItem('defaultSlope', textDefaultSlope.value);
+  localStorage.setItem('defaultSupply', textDefaultSupply.value);
+  localStorage.setItem('defaultFlow', textDefaultFlow.value);
+  localStorage.setItem('defaultManning', textDefaultManning.value);
+  localStorage.setItem('defaultTransport', textDefaultTransport.value);
+  selectTransport.labels[0].textContent = "Transport Coef. (m), current=" + String(localStorage.getItem('defaultTransport'));;
+  size.min = textMinSize.value;
+  slope.min = textMinSlope.value;
+  supply.min = textMinSupply.value;
+  flow.min = textMinFlow.value;
+  manning.min = textMinManning.value;
+  size.max = textMaxSize.value;
+  slope.max = textMaxSlope.value;
+  supply.max = textMaxSupply.value;
+  flow.max = textMaxFlow.value;
+  manning.max = textMaxManning.value;
+  updateObjects();
+});
