@@ -70,10 +70,10 @@ class BalanceScale {
             this.supply = null;
             this.size = null;
             this.scale_points = null;
-            this.slope_range = null;
-            this.sed_size_range = null;
             this.height_text_right = null;
             this.height_text_left = null;
+            this.slope_range = [0.001, 1.0];
+            this.sed_size_range = [0.05, 110.0];
     }
     calc_geometry(context_object,width_canvas) {
         this.ctx = context_object;
@@ -176,16 +176,6 @@ class BalanceScale {
         this.supply = qs;
         this.size = Number(d50);
     }
-    getSelectValueRange(selectElement2) {
-        //const selectElement = document.getElementById(selectElement2);  //1. Get the Select Element
-        const selectElement = document.querySelector(selectElement2);  //This worked, the above statement did not
-        const values = Array.from(selectElement.options).map(option => Number(option.value)); //2.  Use Array.from to array convert collections.  Map --> Numbers.
-        const minValue = Math.min(...values); //3.  Find Minima 
-        const maxValue = Math.max(...values); //4.  Find Maxima
-        //return { min: minValue, max: maxValue };  Returns dictionary keyed with min and max
-        //console.log(`Min for ${selectElement2}: ${minValue};  Max for ${selectElement2}: ${maxValue}`);
-        return [minValue, maxValue]; //Returns array with the 0 element the min and 1 element the max.
-    }
     build_base(){
         this.ctx.clearRect(0, 0, this.width, this.width);
         this.ctx.beginPath();
@@ -260,10 +250,6 @@ class BalanceScale {
                 [xy1[1][0]-this.balance_width_side,xy1[1][1]-this.balance_thickness/2.0],[xy1[1][0],xy1[1][1]-this.balance_thickness/2.0],
                 [xy1[1][0],xy1[1][1]+this.balance_thickness/2.0]];
         this.addLine(xy3, this.color_balance_scale_bar, 2, 2); //Add left part of balance bar as a rectangle (connected to the middle but doesn't rotate).
-        let slopeRange = this.getSelectValueRange('#slope'); //Get the slope min and max in an array.
-        let sedSizeRange = this.getSelectValueRange('#size'); //Get the sed size min and max in an array.
-        this.slope_range = slopeRange;
-        this.sed_size_range = sedSizeRange;
         let width_text_right = this.text_width_height("INCREASING SLOPE",String(this.weight_font_size) + "px arial")[0];
         let height_text_right = this.text_width_height("INCREASING SLOPE",String(this.weight_font_size) + "px arial")[1];
         this.height_text_right = height_text_right;
@@ -277,11 +263,11 @@ class BalanceScale {
         let xy6 = [[xy2[0][0]+this.balance_weight_width_height/2,xy2[2][1]]];
         xy6.push([xy6[0][0],xy6[0][1]-5]);
         this.addLine(xy6,this.color_balance_scale_bar,2,2); //Add tic mark for the min slope value
-        this.addTextAlign({x: xy6[0][0], y: xy6[1][1]-this.spacing_buffer, text_val: String(slopeRange[0]), 
+        this.addTextAlign({x: xy6[0][0], y: xy6[1][1]-this.spacing_buffer, text_val: String(this.slope_range[0]), 
             color_val: this.color_text_scale_bar, font_val: String(this.weight_font_size) + "px arial", text_align: "center"}); //Label for the Min Slope Tic Mark
         let xy7 = [[xy2[2][0]-this.balance_weight_width_height/2,xy6[0][1]],[xy2[2][0]-this.balance_weight_width_height/2,xy6[1][1]]];
         this.addLine(xy7,this.color_balance_scale_bar,2,2); //Add tic mark for the max slope value
-        this.addTextAlign({x: xy7[0][0], y: xy7[1][1]-this.spacing_buffer, text_val: String(slopeRange[1]), 
+        this.addTextAlign({x: xy7[0][0], y: xy7[1][1]-this.spacing_buffer, text_val: String(this.slope_range[1]), 
             color_val: this.color_text_scale_bar, font_val: String(this.weight_font_size) + "px arial", text_align: "center"}); //Label for the Max Slope Tic Mark
         let width_text_left = this.text_width_height("INCREASING SED SIZE",String(this.weight_font_size) + "px arial")[0];
         let height_text_left = this.text_width_height("INCREASING SED SIZE",String(this.weight_font_size) + "px arial")[1];
@@ -294,11 +280,11 @@ class BalanceScale {
         let xy10 = [[xy1[1][0]-this.balance_weight_width_height/2,xy3[2][1]]];
         xy10.push([xy10[0][0],xy10[0][1]-5]);
         this.addLine(xy10,this.color_balance_scale_bar,2,2); //Add tic mark for the min sed size value
-        this.addTextAlign({x: xy10[0][0], y: xy10[1][1]-this.spacing_buffer, text_val: String(sedSizeRange[0]), 
+        this.addTextAlign({x: xy10[0][0], y: xy10[1][1]-this.spacing_buffer, text_val: String(this.sed_size_range[0]), 
             color_val: this.color_text_scale_bar, font_val: String(this.weight_font_size) + "px arial", text_align: "center"}); //Label for the Min Sed Size Tic Mark
         let xy11 = [[xy3[1][0]+this.balance_weight_width_height/2,xy10[0][1]],[xy3[1][0]+this.balance_weight_width_height/2,xy10[1][1]]];
         this.addLine(xy11,this.color_balance_scale_bar,2,2); //Add tic mark for the max sed size value
-        this.addTextAlign({x: xy11[0][0], y: xy11[1][1]-this.spacing_buffer, text_val: String(sedSizeRange[1]), 
+        this.addTextAlign({x: xy11[0][0], y: xy11[1][1]-this.spacing_buffer, text_val: String(this.sed_size_range[1]), 
             color_val: this.color_text_scale_bar, font_val: String(this.weight_font_size) + "px arial", text_align: "center"}); //Label for the Max Sed Size Tic Mark
         xy2.length=0;
         xy3.length=0;
